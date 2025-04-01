@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        APP_NAME = "Reddit-clone-pipeline"
+        APP_NAME = "reddit-clone-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "harshalavaghan"
         DOCKER_PASS = 'dockerhub'
@@ -24,13 +24,14 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/HarshalAvaghanji/Reddit_trial.git'
             }
         }
-        stage("Sonarqube Analysis"){
+        stage("sonarqube Analysis"){
             steps{
                 withSonarQubeEnv('SonarQube-Server') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Reddit-Clone-CI \
                     -Dsonar.projectKey=Reddit-Clone-CI'''
                 }
             }
+        }
         stage("Quality Gate"){
             steps {
                 script {
