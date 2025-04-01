@@ -1,12 +1,12 @@
 pipeline {
-    agent any 
+    agent any
     tools{
         jdk 'jdk17'
         nodejs 'node16'
     }
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        APP_NAME = "reddit-clone-pipeline"
+        APP_NAME = "Reddit-clone-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "harshalavaghan"
         DOCKER_PASS = 'dockerhub'
@@ -23,6 +23,31 @@ pipeline {
             steps{
                 git branch: 'main', url: 'https://github.com/HarshalAvaghanji/Reddit_trial.git'
             }
+        }
+        stage("Sonarqube Analysis"){
+            steps{
+                withSonarQubeEnv('SonarQube-Server') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Reddit-Clone-CI \
+                    -Dsonar.projectKey=Reddit-Clone-CI'''
+                }
+            }
+        stage("Quality Gate"){
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'SonarQube-Token'
+                }
+            }
+        }
+        stage('Install Dependencies'){
+            steps{
+                sh "npm install"
+            }
+        }
+        stage("TRIVY FS SCAN"){
+            steps{
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
         }
     }
 }
