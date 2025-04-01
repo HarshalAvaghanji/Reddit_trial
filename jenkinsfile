@@ -21,7 +21,7 @@ pipeline {
         }
         stage('checkout from Git'){
             steps{
-                git branch: 'main', url: ''
+                git branch: 'main', url: 'https://github.com/HarshalAvaghanji/Reddit_trial.git'
             }
         }
     }
