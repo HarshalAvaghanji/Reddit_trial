@@ -5,7 +5,7 @@ pipeline {
         nodejs 'node16'
     }
     environment {
-        SCANNER_HOME = tool 'Sonar Scanner'
+        SCANNER_HOME = tool 'Sonar-Scanner'
         APP_NAME = "reddit-clone-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "harshalavaghan"
@@ -27,7 +27,7 @@ pipeline {
         stage("Sonarqube Analysis"){
             steps{
                 withSonarQubeEnv('SonarQube-Server') {
-                    sh '''$SCANNER_HOME/bin/Sonar Scanner -Dsonar.projectName=Reddit-Clone-CI \
+                    sh '''$SCANNER_HOME/bin/Sonar-Scanner -Dsonar.projectName=Reddit-Clone-CI \
                     -Dsonar.projectKey=Reddit-Clone-CI'''
                 }
             }
