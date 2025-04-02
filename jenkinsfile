@@ -27,7 +27,6 @@ pipeline {
         stage("Sonarqube Analysis"){
             steps{
                 ${SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.url=http://54.162.60.127:9000 \
                         -Dsonar.login=${sonarqube-token} \
                         -Dsonar.projectName=Reddit-Clone-CI \
                         -Dsonar.projectKey=Reddit-Clone-CI
