@@ -2,7 +2,7 @@ FROM node:19-alpine3.15
 
 WORKDIR /reddit-clone
 
-COPY package*.json ./reddit-clone
+COPY package*.json ./
 RUN npm install
 
 RUN addgroup -S mygroup && \
